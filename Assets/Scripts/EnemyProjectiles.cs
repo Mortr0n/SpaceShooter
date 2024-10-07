@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovePlasmaFoward : MonoBehaviour
+public class EnemyProjectiles : MonoBehaviour
 {
-    //private Rigidbody rb;
-    public float speed = 2500;
+    public float speed = 10f;
     //private float rotationSpeed = 10;
 
     void Start()
@@ -16,7 +15,7 @@ public class MovePlasmaFoward : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 forward = new Vector3(0, 0, 1f);
-        transform.Translate(forward * speed * Time.deltaTime);
+        //Vector3 forward = new Vector3(0, 0, -1f);
+        transform.Translate(transform.forward * speed * Time.deltaTime); 
     }
 }
