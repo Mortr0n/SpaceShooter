@@ -4,24 +4,26 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // gameobjects
     private Rigidbody playerRB;
     public GameObject plasma;
 
+    // movement vars
     public float moveSpeed =  25;
-    public float weaponPauseTime = .8f;
-    public int plasmaFireTimes = 3;
-
-   
-
     private float boundaryX = 20f;
     private float minZ = -20f;
     private float maxZ = 3;
     private Vector3 velocity;
 
+    // plasma weapon vars
+    public float weaponPauseTime = .8f;
+    public int plasmaFireTimes = 3;
+    public float plasmaBurstPauseTime = 1f;
+    public bool canFire = true;
+
     void Start()
     { 
         playerRB = GetComponent<Rigidbody>();
-
     }
 
     // Update is called once per frame
@@ -31,7 +33,8 @@ public class PlayerController : MonoBehaviour
         float inputZ = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(inputX, 0, inputZ) * moveSpeed * Time.deltaTime;
-
+        
+        // contain left to right movement in boundaries of map
         if (transform.position.x > boundaryX)
         {
             transform.position = new Vector3(boundaryX, 3, transform.position.z);
@@ -40,7 +43,8 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(-boundaryX, 3, transform.position.z);
         }
-                
+            
+        // contain forward and backwards movement
         if (transform.position.z < minZ)
         {
             transform.position = new Vector3(transform.position.x, 3, minZ);
@@ -49,16 +53,15 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, 3, maxZ);
         }
-        else
+        else // looks like we can move!
         {
-            
             transform.Translate(movement);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) )
+        if (Input.GetKeyDown(KeyCode.Mouse0) && canFire )
         {
+            canFire = false; // for pause in between shots so they can't just spam fire button
             StartCoroutine(PlasmaFireWithPause(plasmaFireTimes));
-            //FirePlasmaBall();
         }
     }
 
@@ -113,29 +116,30 @@ public class PlayerController : MonoBehaviour
 
     private void FirePlasmaBall(int side)
     {
-
+        // choose side to fire from based on in passed in
         if (side == 0 || side % 2 == 0)
         {
-            
             Vector3 playerRightGun = new Vector3(.7f, .4f, .8f);
-            Debug.Log("Right: " + playerRightGun );
             Instantiate(plasma, playerRB.transform.position + playerRightGun, transform.rotation);
         }
         else
         {
-            
             Vector3 playerLeftGun = new Vector3(-.7f, .4f, .8f);
-            Debug.Log("Left: " + playerLeftGun);
             Instantiate(plasma, playerRB.transform.position + playerLeftGun, transform.rotation); 
         }
     }
 
     IEnumerator PlasmaFireWithPause(int amt)
-    { 
-        for( int i = 0; i < amt; i++) {
+    {
+        // multi shot plasma fire with pause in between shots
+        canFire = false;    
+        for (int i = 0; i < amt; i++)
+        {
             FirePlasmaBall(i);
             yield return new WaitForSeconds(weaponPauseTime);
         }
+        yield return new WaitForSeconds(plasmaBurstPauseTime);
+        canFire = true;
     }
     
 
