@@ -6,7 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRB;
     public GameObject plasma;
+
     public float moveSpeed =  25;
+    public float weaponPauseTime = .8f;
+    public int plasmaFireTimes = 3;
 
    
 
@@ -54,7 +57,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0) )
         {
-            FirePlasmaBall();
+            StartCoroutine(PlasmaFireWithPause(plasmaFireTimes));
+            //FirePlasmaBall();
         }
     }
 
@@ -93,19 +97,47 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Laser Hit!");
                 Destroy(other.gameObject); 
                 break;
+            case "EnemyLaser":
+                Debug.Log("Enemy Laser Hit!");
+                Destroy (other.gameObject);
+                KillPlayer();
+                break;
         }
     }
 
-    private void FirePlasmaBall()
+    private void KillPlayer()
     {
-        Vector3 playerRightGun = new Vector3(.7f, .4f, .8f);
-        Instantiate(plasma, playerRB.transform.position + playerRightGun, transform.rotation);
-
-        Vector3 playerLeftGun = new Vector3(-.7f, .4f, .8f);
-        Instantiate(plasma, playerRB.transform.position + playerLeftGun, transform.rotation);
-
-        //GameObject rock = Instantiate(spaceRocks[idx], GenerateRandomLoc(), spaceRocks[idx].transform.rotation);
-        //rock.transform.position = GenerateRandomLoc();
+        Debug.Log("Player Death");
+        Destroy(gameObject);
     }
+
+    private void FirePlasmaBall(int side)
+    {
+
+        if (side == 0 || side % 2 == 0)
+        {
+            
+            Vector3 playerRightGun = new Vector3(.7f, .4f, .8f);
+            Debug.Log("Right: " + playerRightGun );
+            Instantiate(plasma, playerRB.transform.position + playerRightGun, transform.rotation);
+        }
+        else
+        {
+            
+            Vector3 playerLeftGun = new Vector3(-.7f, .4f, .8f);
+            Debug.Log("Left: " + playerLeftGun);
+            Instantiate(plasma, playerRB.transform.position + playerLeftGun, transform.rotation); 
+        }
+    }
+
+    IEnumerator PlasmaFireWithPause(int amt)
+    { 
+        for( int i = 0; i < amt; i++) {
+            FirePlasmaBall(i);
+            yield return new WaitForSeconds(weaponPauseTime);
+        }
+    }
+    
+
 
 }

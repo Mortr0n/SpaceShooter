@@ -18,7 +18,11 @@ public class DestroyOnCollision : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Destroy(other.gameObject);
-        Destroy(gameObject);
+        if (!other.gameObject.CompareTag("EnemyLaser"))
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+        }
+        
     }
 }

@@ -9,6 +9,7 @@ TagManager:
   - Asteroid
   - PowerBomb
   - Laser
+  - EnemyLaser
   layers:
   - Default
   - TransparentFX

@@ -37,7 +37,7 @@ public class EnemyShipController : MonoBehaviour
             if (offsetVar == 0)
             {
 
-                shipOffset = new Vector3(0, -0f, largeShipLaserZ);
+                shipOffset = new Vector3(-.2f, -0f, largeShipLaserZ);
             }
             else
             {

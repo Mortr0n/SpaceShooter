@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyOffScreen : MonoBehaviour
 {
-    public float destroyPos = -24;
+    public float destroyPos = -30; // public variable set on each object with this script so set accordingly
     
     void Start()
     {
@@ -23,7 +23,7 @@ public class DestroyOffScreen : MonoBehaviour
         }
         if (destroyPos > 0)
         {
-            if (transform.position.z > destroyPos)
+            if (transform.position.z >  destroyPos)
             {
                 Destroy(gameObject);
             }
