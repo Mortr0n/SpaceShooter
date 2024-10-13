@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,10 +9,18 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRB;
     public GameObject plasma;
 
-    // player vars
+    // player Stat vars
     private float maxHealth = 100f;
     private float playerHealth;
-    
+
+    // Player Level vars
+    private float playerLevel = 0;
+    private float playerExpToLevel = 100f;
+    private float playerExp = 0;
+    private float expModifier = 1f;
+    private float expToLevelModifier = 1.1f;
+    private Action[] levelUpActions;
+
 
     // movement vars
     public float moveSpeed =  25;
@@ -25,11 +34,20 @@ public class PlayerController : MonoBehaviour
     public int plasmaFireTimes = 3;
     private float plasmaBurstPauseTime = .5f;
     public bool canFire = true;
+    private float pDamageModAmt = 1;
 
     void Start()
     { 
         playerRB = GetComponent<Rigidbody>();
         playerHealth = maxHealth;
+
+        levelUpActions = new Action[]
+        {
+            () => plasmaFireTimes++,
+            () => weaponPauseTime *= .9f,
+            () => plasmaBurstPauseTime -= .1f,
+
+        };
     }
 
     // Update is called once per frame
@@ -97,6 +115,7 @@ public class PlayerController : MonoBehaviour
         string tag = other.gameObject.tag;
         EnemyProjectiles enemyProjectile = other.gameObject.GetComponent<EnemyProjectiles>();
         RepairController repairController = other.gameObject.GetComponent<RepairController>();
+
         switch (tag)
         {
             case "PowerUp":
@@ -107,6 +126,16 @@ public class PlayerController : MonoBehaviour
                     HealPlayer(repairController.MaxHealthIncAmount());
                 }
                 //Destroy(other.gameObject);
+                break;
+            case "Experience":
+                Debug.Log("Experience Collected");
+                float gatheredExp = 0;
+                if (other.name == "BasicExp(Clone)")
+                {
+                    gatheredExp = 20;
+                }
+                IncPlayerExp(gatheredExp);
+                Destroy(other.gameObject);
                 break;
             case "PowerBomb":
                 Debug.Log("PowerBomb Hit!");
@@ -179,16 +208,21 @@ public class PlayerController : MonoBehaviour
 
     private void FirePlasmaBall(int side)
     {
+        GameObject plasmaInstance;
         // choose side to fire from based on in passed in
         if (side == 0 || side % 2 == 0)
         {
             Vector3 playerRightGun = new Vector3(.7f, .4f, .8f);
-            Instantiate(plasma, playerRB.transform.position + playerRightGun, transform.rotation);
+            plasmaInstance = Instantiate(plasma, playerRB.transform.position + playerRightGun, transform.rotation);
+            PlayerWeaponController pWeapCont =  plasmaInstance.GetComponent<PlayerWeaponController>();
+            pWeapCont.SetDamage(pDamageModAmt);
         }
         else
         {
             Vector3 playerLeftGun = new Vector3(-.7f, .4f, .8f);
-            Instantiate(plasma, playerRB.transform.position + playerLeftGun, transform.rotation); 
+            plasmaInstance = Instantiate(plasma, playerRB.transform.position + playerLeftGun, transform.rotation);
+            PlayerWeaponController pWeapCont = plasmaInstance.GetComponent<PlayerWeaponController>();
+            pWeapCont.SetDamage(pDamageModAmt);
         }
     }
 
@@ -204,7 +238,46 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(plasmaBurstPauseTime);
         canFire = true;
     }
-    
 
+    public void IncPlayerExp(float amt)
+    {
+        float incAmount = amt * expModifier;
+        playerExp += incAmount;
+        Debug.Log("Player got exp " + incAmount + " increasing to " +  playerExp);
+        if (playerExp > playerExpToLevel)
+        {
+            float leftOverExp = playerExp - playerExpToLevel;
+            LevelUpPlayer(leftOverExp);
+        }
+    }
 
+    public void LevelUpPlayer(float bonusExp)
+    {
+        playerLevel++;
+        playerExpToLevel *= expToLevelModifier;
+        playerExp = bonusExp;
+        Debug.Log("Player Level up to " +  playerLevel + " next xp to lvl " + playerExpToLevel + " curr exp at " + playerExp);
+        int idx = UnityEngine.Random.Range(0, levelUpActions.Length);
+        levelUpActions[idx].Invoke();
+        Debug.Log($"Level {playerLevel} - Action {idx} applied");
+        //switch (playerLevel)
+        //{
+        //    case 1:
+        //        plasmaFireTimes++;
+        //        break;
+        //    case 2:
+        //        weaponPauseTime *= .9f;
+        //        break;
+        //    case 3:
+        //        plasmaBurstPauseTime -= .1f;
+        //        break;
+        //    case 4:
+        //        plasmaFireTimes++;
+        //        break;
+        //    default:
+        //        plasmaFireTimes++;
+        //        break;
+        //}
+
+    }
 }

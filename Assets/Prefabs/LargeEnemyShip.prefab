@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4173469245938978145}
   - component: {fileID: 3671802573249228763}
   - component: {fileID: 2290113919801726500}
-  - component: {fileID: 7562289769406025928}
   - component: {fileID: 5543071563666972351}
   m_Layer: 0
   m_Name: LargeEnemyShip
@@ -141,8 +140,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859a90cf8b681394a8bc6ba3a3c254c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 950
+  speed: 800
   torqueAmt: 10
+  damageAmount: 30
 --- !u!114 &2290113919801726500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,18 +156,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyPos: -24
---- !u!114 &7562289769406025928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4249104659295467784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d80069a071158da4cb1856fa86c3a737, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5543071563666972351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,6 +169,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laser: {fileID: 6732093605767728338, guid: 996eca4034630ca41ab831974c66786a, type: 3}
+  expGems:
+  - {fileID: 348165365873603563, guid: 718f0b24eed85b44b92d2388cb3cc40b, type: 3}
+  shipMaxHealth: 100
+  damageAmount: 30
+  enemyTypeRange: 1
 --- !u!1 &5539182681326860928
 GameObject:
   m_ObjectHideFlags: 0

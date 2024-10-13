@@ -35,7 +35,7 @@ public class MoveDown : MonoBehaviour
         }
 
         // Power up movement in world
-        if (CompareTag("Repair"))
+        if (CompareTag("Repair") || CompareTag("Experience"))
         {
             //Debug.Log("Inside the repair if ");
             Vector3 moveDown = new Vector3(0, 0, -1) * speed * Time.deltaTime;

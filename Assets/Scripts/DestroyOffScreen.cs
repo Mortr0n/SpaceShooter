@@ -18,6 +18,7 @@ public class DestroyOffScreen : MonoBehaviour
         {
             if (transform.position.z < destroyPos)
             {
+                //Debug.Log("Destroying " + gameObject.name + " because it's pos " + transform.position.z + " is less than " + destroyPos);
                 Destroy(gameObject);
             }
         }
@@ -25,6 +26,7 @@ public class DestroyOffScreen : MonoBehaviour
         {
             if (transform.position.z >  destroyPos)
             {
+                //Debug.Log("Destroying " + gameObject.name + " because it's pos " + transform.position.z + " is greater than " + destroyPos);
                 Destroy(gameObject);
             }
 

@@ -5,17 +5,17 @@ using UnityEngine;
 public class SpinController : MonoBehaviour
 {
     public float spinSpeed;
-    private string tag;
+    private string tagString;
     // Start is called before the first frame update
     void Start()
     {
-        tag = gameObject.tag;
+        tagString = gameObject.tag;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (tag == "PowerUp")
+        if (tagString == "PowerUp")
         {
             transform.Rotate(0, spinSpeed * Time.deltaTime, 0);
         } 

@@ -177,3 +177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80069a071158da4cb1856fa86c3a737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  expGems:
+  - {fileID: 348165365873603563, guid: 718f0b24eed85b44b92d2388cb3cc40b, type: 3}
+  smallAsteroid: {fileID: 2461106500979178932, guid: 4a787dc54022ed746b73af9a0d6be2e1, type: 3}
+  medAsteroid: {fileID: 3553060189367025391}
+  enemyTypeRange: 1

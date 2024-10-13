@@ -11,6 +11,8 @@ TagManager:
   - Laser
   - EnemyLaser
   - Repair
+  - PlayerWeapon
+  - Experience
   layers:
   - Default
   - TransparentFX

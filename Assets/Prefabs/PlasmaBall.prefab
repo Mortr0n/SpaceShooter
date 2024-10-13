@@ -89,6 +89,10 @@ PrefabInstance:
       value: PlasmaBall
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a271276a799051c4b97cacf45000e655, type: 3}
+      propertyPath: m_TagString
+      value: PlayerWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a271276a799051c4b97cacf45000e655, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 1
       objectReference: {fileID: 0}
@@ -105,6 +109,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a271276a799051c4b97cacf45000e655, type: 3}
       insertIndex: -1
       addedObject: {fileID: 270486640329437318}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a271276a799051c4b97cacf45000e655, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -693212511844762701}
   m_SourcePrefab: {fileID: 100100000, guid: a271276a799051c4b97cacf45000e655, type: 3}
 --- !u!1 &7366990897936518050 stripped
 GameObject:
@@ -158,3 +165,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
+--- !u!114 &-693212511844762701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7366990897936518050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b969de70498df948a7c775265c0377a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initDamageAmount: 25
