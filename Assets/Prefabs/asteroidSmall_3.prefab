@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bedfce92a7fb04681f34c32e023fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyPos: -24
 --- !u!114 &-8434014269380513737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,8 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859a90cf8b681394a8bc6ba3a3c254c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 800
+  speed: 2300
   torqueAmt: 10
+  damageAmount: 10
 --- !u!64 &2622998644592922518
 MeshCollider:
   m_ObjectHideFlags: 0

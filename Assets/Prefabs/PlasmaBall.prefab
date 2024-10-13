@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a271276a799051c4b97cacf45000e655, type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a271276a799051c4b97cacf45000e655, type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a271276a799051c4b97cacf45000e655, type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a271276a799051c4b97cacf45000e655, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a271276a799051c4b97cacf45000e655, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: a271276a799051c4b97cacf45000e655, type: 3}
       propertyPath: m_CastShadows
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bedfce92a7fb04681f34c32e023fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyPos: 1
+  destroyPos: 38
 --- !u!114 &270486640329437318
 MonoBehaviour:
   m_ObjectHideFlags: 0

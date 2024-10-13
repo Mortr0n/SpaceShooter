@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyProjectiles : MonoBehaviour
 {
     public float speed = 10f;
+    public float damageAmount;
     //private float rotationSpeed = 10;
 
     void Start()

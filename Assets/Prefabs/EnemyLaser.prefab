@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
+  damageAmount: 15
 --- !u!136 &4841545678927449951
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -134,4 +135,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bedfce92a7fb04681f34c32e023fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyPos: 0
+  destroyPos: -20

@@ -8,6 +8,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRB;
     public GameObject plasma;
 
+    // player vars
+    private float maxHealth = 100f;
+    private float playerHealth;
+    
+
     // movement vars
     public float moveSpeed =  25;
     private float boundaryX = 20f;
@@ -16,14 +21,15 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
 
     // plasma weapon vars
-    public float weaponPauseTime = .8f;
+    public float weaponPauseTime = .6f;
     public int plasmaFireTimes = 3;
-    public float plasmaBurstPauseTime = 1f;
+    private float plasmaBurstPauseTime = .5f;
     public bool canFire = true;
 
     void Start()
     { 
         playerRB = GetComponent<Rigidbody>();
+        playerHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -68,15 +74,18 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         string tag = collision.gameObject.tag;
+        MoveDown dmgComponent = collision.gameObject.GetComponent<MoveDown>();
 
         switch (tag)
         {
             case "Enemy":
                 Debug.Log("Enemy Collision");
+                DamagePlayer(dmgComponent.GetDamage());
                 break;
             
             case "Asteroid":
                 Debug.Log("Asteroid Collision");
+                DamagePlayer(dmgComponent.GetDamage());
                 break;
         }
 
@@ -86,11 +95,18 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         string tag = other.gameObject.tag;
+        EnemyProjectiles enemyProjectile = other.gameObject.GetComponent<EnemyProjectiles>();
+        RepairController repairController = other.gameObject.GetComponent<RepairController>();
         switch (tag)
         {
             case "PowerUp":
                 Debug.Log("PowerUp Collected");
-                Destroy(other.gameObject);
+                if (repairController != null)
+                {
+                    maxHealth += repairController.MaxHealthIncAmount();
+                    HealPlayer(repairController.MaxHealthIncAmount());
+                }
+                //Destroy(other.gameObject);
                 break;
             case "PowerBomb":
                 Debug.Log("PowerBomb Hit!");
@@ -102,9 +118,56 @@ public class PlayerController : MonoBehaviour
                 break;
             case "EnemyLaser":
                 Debug.Log("Enemy Laser Hit!");
-                Destroy (other.gameObject);
-                KillPlayer();
+                if (enemyProjectile != null)
+                {
+                    float damageAmount = enemyProjectile.damageAmount;
+                    DamagePlayer(damageAmount);
+                } 
+                else
+                {
+                    Debug.LogWarning("MoveDown component is missing or not set!");
+                }
+                //DamagePlayer(dmgComponent.GetDamage());
+                Destroy(other.gameObject);
                 break;
+            case "Repair":
+                Debug.Log("Repairing!");
+
+                if (repairController != null)
+                {
+                    HealPlayer(repairController.healAmount);
+                }
+                else
+                {
+                    Debug.LogError("Repair controller not set or missing!");
+                }
+                break;
+        }
+    }
+
+    private void HealPlayer(float amount)
+    {
+        if (playerHealth < maxHealth)
+        {
+            
+            playerHealth += amount;
+            if (playerHealth > maxHealth)
+            {
+                playerHealth = maxHealth;
+            }
+            Debug.Log("Healing for " + amount + " Health is at " + playerHealth + " and max is " + maxHealth);
+        }
+    }
+
+    public void DamagePlayer(float amount)
+    {
+        Debug.Log("Damaging player for " + amount + " amount of damage, now at " + (playerHealth - amount) + " amount.");
+        if (playerHealth > amount)
+        {
+            playerHealth -= amount;
+        } else
+        {
+            KillPlayer();
         }
     }
 

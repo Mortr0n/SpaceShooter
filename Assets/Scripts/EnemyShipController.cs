@@ -9,6 +9,7 @@ public class EnemyShipController : MonoBehaviour
     private float laserTimer = 2f;
     private float largeShipLaserZ = -1.5f;
     private float largeShipAltLaserX = -1.5f;
+    public float damageAmount;
 
     void Start()
     {

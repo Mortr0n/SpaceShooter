@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class SpawnManagerController : MonoBehaviour
 {
-    public float xRange = 12f;
-    public float zPos = 13f;
+    public float xRange = 20;
+    public float zPos = 35;
     public float yPos = 3f;
     private float rockDelay = 1f;
+    private float powerUpDelay = 30f;
     
     
     public GameObject[] spaceRocks;
+    public GameObject[] powerUps;
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(RockTimer(rockDelay));
+        StartCoroutine(PowerUpTimer(1f));
     }
 
     // Update is called once per frame 
@@ -54,5 +57,21 @@ public class SpawnManagerController : MonoBehaviour
             StartCoroutine(RockTimer(rockDelay));
             rock.transform.position = GenerateRandomLoc();
         }
+    }
+
+    IEnumerator PowerUpTimer(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        GameObject powerUp;
+        //TODO: Instead of using multiples of an object to create percentage chances instead use random numbers and then grab an index based on a range that I can set ratio's for
+        int idx = Random.Range(0, powerUps.Length);
+        if (powerUps[idx] != null)
+        {
+            powerUp = Instantiate(powerUps[idx], GenerateRandomLoc(), powerUps[idx].transform.rotation);
+            yield return new WaitForEndOfFrame();
+            StartCoroutine(PowerUpTimer(powerUpDelay));
+            powerUp.transform.position = GenerateRandomLoc();
+        }
+
     }
 }

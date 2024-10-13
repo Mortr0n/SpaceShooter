@@ -10,6 +10,7 @@ TagManager:
   - PowerBomb
   - Laser
   - EnemyLaser
+  - Repair
   layers:
   - Default
   - TransparentFX
