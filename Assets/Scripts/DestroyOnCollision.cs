@@ -32,8 +32,8 @@ public class DestroyOnCollision : MonoBehaviour
                     // Apply force to blow them apart
                     Rigidbody rb1 = medRock1.GetComponent<Rigidbody>();
                     Rigidbody rb2 = smallRock2.GetComponent<Rigidbody>();
-                    rb1.AddForce(new Vector3(1, 0, 1) * 150f, ForceMode.Impulse);  // Push in random directions
-                    rb2.AddForce(new Vector3(-1, 0, -1) * 150f, ForceMode.Impulse);
+                    rb1.AddForce(new Vector3(1, 0, 1) * 3f, ForceMode.Impulse);  // Push in random directions
+                    rb2.AddForce(new Vector3(-1, 0, -1) * 3f, ForceMode.Impulse);
                     break;
                 case "asteroidMed_2(Clone)":
                     GameObject smallRock3 = Instantiate(smallAsteroid, transform.position + offset1, transform.rotation);
@@ -41,8 +41,8 @@ public class DestroyOnCollision : MonoBehaviour
                     // Apply force to blow them apart
                     Rigidbody rb3 = smallRock3.GetComponent<Rigidbody>();
                     Rigidbody rb4 = smallRock4.GetComponent<Rigidbody>();
-                    rb3.AddForce(new Vector3(1, 0, -1) * 150f, ForceMode.Impulse);
-                    rb4.AddForce(new Vector3(-1, 0, 1) * 150f, ForceMode.Impulse);
+                    rb3.AddForce(new Vector3(1, 0, -1) * 3f, ForceMode.Impulse);
+                    rb4.AddForce(new Vector3(-1, 0, 1) * 3f, ForceMode.Impulse);
                     break;
                 default:
                     break;

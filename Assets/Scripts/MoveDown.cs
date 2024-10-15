@@ -24,15 +24,22 @@ public class MoveDown : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         // Normal asteroid and other movement
         Vector3 down = new Vector3(0, 0, -1);
         if (rb != null)
         {
-            rb.velocity = down * speed * Time.deltaTime;
+            //rb.velocity = down * speed * Time.deltaTime;
+            Vector3 downForce = new Vector3(0, 0, -1) * 2f * Time.fixedDeltaTime;
+            rb.AddForce(downForce, ForceMode.VelocityChange);
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+       
 
         // Power up movement in world
         if (CompareTag("Repair") || CompareTag("Experience"))
