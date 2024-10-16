@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5467473853926903287}
   - component: {fileID: 5125558753953269864}
   - component: {fileID: 944095860978830671}
+  - component: {fileID: -8309621694382856643}
   - component: {fileID: 1309696257287531505}
   - component: {fileID: -8434014269380513737}
   - component: {fileID: -1825789094002036306}
@@ -18,7 +19,7 @@ GameObject:
   - component: {fileID: 5538780994973736497}
   m_Layer: 0
   m_Name: asteroidSmall_3
-  m_TagString: Asteroid
+  m_TagString: AsteroidSmall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,6 +89,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-8309621694382856643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5468446860981944602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe611ce9a79ae247b0f4468d9a04ecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1309696257287531505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expGems:
   - {fileID: 348165365873603563, guid: 718f0b24eed85b44b92d2388cb3cc40b, type: 3}
+  smallAsteroid: {fileID: 0}
+  medAsteroid: {fileID: 0}
   enemyTypeRange: 1
 --- !u!114 &-1825789094002036306
 MonoBehaviour:

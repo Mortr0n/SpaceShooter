@@ -11,7 +11,9 @@ public class PlayerController : MonoBehaviour
 
     // player Stat vars
     private float maxHealth = 100f;
+    [SerializeField]
     private float playerHealth;
+    private float armorVal = 1;
 
     // Player Level vars
     private float playerLevel = 0;
@@ -23,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
 
     // movement vars
-    public float moveSpeed =  25;
+    public float moveSpeed =  8;
     private float boundaryX = 20f;
     private float minZ = -20f;
     private float maxZ = 3;
@@ -46,6 +48,8 @@ public class PlayerController : MonoBehaviour
             () => plasmaFireTimes++,
             () => weaponPauseTime *= .9f,
             () => plasmaBurstPauseTime -= .1f,
+            () => moveSpeed *= 1.1f,
+            () => armorVal += 2,
 
         };
     }
@@ -93,6 +97,7 @@ public class PlayerController : MonoBehaviour
     {
         string tag = collision.gameObject.tag;
         MoveDown dmgComponent = collision.gameObject.GetComponent<MoveDown>();
+        AsteroidController asteroidController = collision.gameObject.GetComponent<AsteroidController>();
 
         switch (tag)
         {
@@ -101,9 +106,15 @@ public class PlayerController : MonoBehaviour
                 DamagePlayer(dmgComponent.GetDamage());
                 break;
             
-            case "Asteroid":
-                Debug.Log("Asteroid Collision");
-                DamagePlayer(dmgComponent.GetDamage());
+            case "AsteroidSmall":
+            case "AsteroidMedium":
+            case "AsteroidLarge":
+                if (asteroidController != null)
+                {
+                    float damageAmt = asteroidController.GetAsteroidCollisionDmg();
+                    Debug.Log($"Player should take {damageAmt} damage from tag {tag} controller is {asteroidController}");
+                    DamagePlayer(damageAmt);
+                }
                 break;
         }
 
@@ -115,9 +126,17 @@ public class PlayerController : MonoBehaviour
         string tag = other.gameObject.tag;
         EnemyProjectiles enemyProjectile = other.gameObject.GetComponent<EnemyProjectiles>();
         RepairController repairController = other.gameObject.GetComponent<RepairController>();
+        AsteroidController asteroidController = other.gameObject.GetComponent<AsteroidController>();
 
         switch (tag)
         {
+            //case "AsteroidSmall":
+            //case "AsteroidMedium":
+            //case "AsteroidLarge":
+            //    float damageAmt = asteroidController.GetAsteroidCollisionDmg();
+            //    Debug.Log($"Player should take {damageAmt} damage from tag {tag} controller is {asteroidController}");
+            //    DamagePlayer(damageAmt);
+            //    break;
             case "PowerUp":
                 Debug.Log("PowerUp Collected");
                 if (repairController != null)
@@ -193,7 +212,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Damaging player for " + amount + " amount of damage, now at " + (playerHealth - amount) + " amount.");
         if (playerHealth > amount)
         {
-            playerHealth -= amount;
+            playerHealth -= (amount - armorVal);
         } else
         {
             KillPlayer();

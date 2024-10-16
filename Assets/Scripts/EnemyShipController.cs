@@ -85,7 +85,7 @@ public class EnemyShipController : MonoBehaviour
             // call players weapons destroy script maybe instead of just destroying it?
             Destroy(other.gameObject);
             PlayerWeaponController pWeapCont = other.GetComponent<PlayerWeaponController>();
-            Debug.Log(other.tag + " Weap Dmg " +  pWeapCont.GetDamage());
+            Debug.Log(other.tag + " Weap Dmg " + pWeapCont.GetDamage());
 
             if (pWeapCont != null)
             {
@@ -96,13 +96,19 @@ public class EnemyShipController : MonoBehaviour
                 Debug.LogError("PlayerWeaponController not found on collided player weapon!");
             }
         }
-               
-        
-        if (!other.CompareTag("EnemyLaser") && !other.CompareTag("Repair") && !other.CompareTag("PowerUp") && !other.CompareTag("Asteroid"))
+
+
+        if (other.CompareTag("EnemyLaser")
+            || other.CompareTag("Repair")
+            || other.CompareTag("PowerUp")
+            || other.CompareTag("AsteroidSmall")
+            || other.CompareTag("AsteroidMedium")
+            && !other.CompareTag("AsteroidLarge"))
         {
-            Destroy(other.gameObject);
+            return;
             //Destroy(gameObject);
         }
+        Destroy(other.gameObject);
     }
 
     private void DamageEnemy(float damage)

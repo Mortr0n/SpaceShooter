@@ -11,14 +11,15 @@ GameObject:
   - component: {fileID: 1914972801109407271}
   - component: {fileID: 4812900957903873819}
   - component: {fileID: 6818611362230279957}
+  - component: {fileID: 5777545158534761891}
   - component: {fileID: 2315863110064369436}
+  - component: {fileID: 8892910488901657108}
+  - component: {fileID: -2095585873850875993}
   - component: {fileID: 4089993309083102148}
   - component: {fileID: 993569851352873390}
-  - component: {fileID: -2095585873850875993}
-  - component: {fileID: 8892910488901657108}
   m_Layer: 0
   m_Name: asteroidSmall_1
-  m_TagString: Asteroid
+  m_TagString: AsteroidSmall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,6 +89,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5777545158534761891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2461106500979178932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe611ce9a79ae247b0f4468d9a04ecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2315863110064369436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,6 +114,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyPos: -24
+--- !u!114 &8892910488901657108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2461106500979178932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80069a071158da4cb1856fa86c3a737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expGems:
+  - {fileID: 348165365873603563, guid: 718f0b24eed85b44b92d2388cb3cc40b, type: 3}
+  smallAsteroid: {fileID: 0}
+  medAsteroid: {fileID: 0}
+  enemyTypeRange: 1
+--- !u!114 &-2095585873850875993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2461106500979178932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859a90cf8b681394a8bc6ba3a3c254c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2400
+  torqueAmt: 10
+  damageAmount: 10
 --- !u!54 &4089993309083102148
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -150,33 +195,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 286439060543243497, guid: dd9cee7d7f4f2494cae6fa998ff4c8ca, type: 3}
---- !u!114 &-2095585873850875993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2461106500979178932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859a90cf8b681394a8bc6ba3a3c254c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2400
-  torqueAmt: 10
-  damageAmount: 10
---- !u!114 &8892910488901657108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2461106500979178932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d80069a071158da4cb1856fa86c3a737, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  expGems:
-  - {fileID: 348165365873603563, guid: 718f0b24eed85b44b92d2388cb3cc40b, type: 3}
-  enemyTypeRange: 1

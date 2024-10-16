@@ -11,14 +11,15 @@ GameObject:
   - component: {fileID: 6453154990832124674}
   - component: {fileID: 4740289566733219089}
   - component: {fileID: 4975231716691806162}
+  - component: {fileID: 8975811078787395056}
   - component: {fileID: 7657218250998345737}
-  - component: {fileID: 1905605389031529982}
-  - component: {fileID: 3156993562783008390}
   - component: {fileID: 979225230318067382}
   - component: {fileID: -2194987015109324600}
+  - component: {fileID: 1905605389031529982}
+  - component: {fileID: 3156993562783008390}
   m_Layer: 0
   m_Name: asteroidLarge_1
-  m_TagString: Asteroid
+  m_TagString: AsteroidLarge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,6 +89,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8975811078787395056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6174758864646177460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe611ce9a79ae247b0f4468d9a04ecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7657218250998345737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,6 +114,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyPos: -24
+--- !u!114 &979225230318067382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6174758864646177460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859a90cf8b681394a8bc6ba3a3c254c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1250
+  torqueAmt: 10
+  damageAmount: 40
+--- !u!114 &-2194987015109324600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6174758864646177460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80069a071158da4cb1856fa86c3a737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expGems:
+  - {fileID: 348165365873603563, guid: 718f0b24eed85b44b92d2388cb3cc40b, type: 3}
+  smallAsteroid: {fileID: 5468446860981944602, guid: 0123be7e0c0de7c4f989e4037af61a66, type: 3}
+  medAsteroid: {fileID: 3553060189367025391, guid: 29ff228a1792fe44a8795059d9e0288b, type: 3}
+  enemyTypeRange: 1
 --- !u!64 &1905605389031529982
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -150,35 +195,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
---- !u!114 &979225230318067382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6174758864646177460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859a90cf8b681394a8bc6ba3a3c254c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1250
-  torqueAmt: 10
-  damageAmount: 40
---- !u!114 &-2194987015109324600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6174758864646177460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d80069a071158da4cb1856fa86c3a737, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  expGems:
-  - {fileID: 348165365873603563, guid: 718f0b24eed85b44b92d2388cb3cc40b, type: 3}
-  smallAsteroid: {fileID: 5468446860981944602, guid: 0123be7e0c0de7c4f989e4037af61a66, type: 3}
-  medAsteroid: {fileID: 3553060189367025391, guid: 29ff228a1792fe44a8795059d9e0288b, type: 3}
-  enemyTypeRange: 1

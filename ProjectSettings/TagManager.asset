@@ -13,6 +13,9 @@ TagManager:
   - Repair
   - PlayerWeapon
   - Experience
+  - AsteroidLarge
+  - AsteroidSmall
+  - AsteroidMedium
   layers:
   - Default
   - TransparentFX

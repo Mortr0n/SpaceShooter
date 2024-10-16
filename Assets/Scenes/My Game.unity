@@ -2345,7 +2345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plasma: {fileID: 7366990897936518050, guid: 02a06e3a2a6a3fb43bbe47e6151df635, type: 3}
-  moveSpeed: 25
+  moveSpeed: 8
   weaponPauseTime: 0.2
   plasmaFireTimes: 3
   canFire: 1
