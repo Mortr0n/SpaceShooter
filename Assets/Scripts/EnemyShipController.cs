@@ -103,7 +103,7 @@ public class EnemyShipController : MonoBehaviour
             || other.CompareTag("PowerUp")
             || other.CompareTag("AsteroidSmall")
             || other.CompareTag("AsteroidMedium")
-            && !other.CompareTag("AsteroidLarge"))
+            || other.CompareTag("AsteroidLarge"))
         {
             return;
             //Destroy(gameObject);
