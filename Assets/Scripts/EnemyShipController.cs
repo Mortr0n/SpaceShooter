@@ -23,6 +23,10 @@ public class EnemyShipController : MonoBehaviour
     private int expBase = 0;
     public int enemyTypeRange;
 
+    // Enemy Audio
+    public AudioSource enemyLaserAudioSource;
+    public AudioClip laserAudioClip;
+
     void Start()
     {
         StartCoroutine(FireLaser());
@@ -51,7 +55,7 @@ public class EnemyShipController : MonoBehaviour
 
         //Debug.Log(gameObject.name + " name ");
         //Debug.Log(gameObject.name == "LargeEnemyShip(Clone)"); 
-
+        enemyLaserAudioSource.PlayOneShot(laserAudioClip);
         if (gameObject.name == "LargeEnemyShip(Clone)")
         {
             //Debug.Log("Firing Laser Hopefully: " + gameObject.name);

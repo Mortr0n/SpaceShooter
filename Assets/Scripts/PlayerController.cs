@@ -38,6 +38,11 @@ public class PlayerController : MonoBehaviour
     public bool canFire = true;
     private float pDamageModAmt = 1;
 
+    // Audio
+    public AudioSource playerAudio;
+
+    public AudioClip plasmaClip;
+
     void Start()
     { 
         playerRB = GetComponent<Rigidbody>();
@@ -229,8 +234,10 @@ public class PlayerController : MonoBehaviour
     {
         GameObject plasmaInstance;
         // choose side to fire from based on in passed in
+        playerAudio.PlayOneShot(plasmaClip);
         if (side == 0 || side % 2 == 0)
         {
+            
             Vector3 playerRightGun = new Vector3(.7f, .4f, .8f);
             plasmaInstance = Instantiate(plasma, playerRB.transform.position + playerRightGun, transform.rotation);
             PlayerWeaponController pWeapCont =  plasmaInstance.GetComponent<PlayerWeaponController>();
