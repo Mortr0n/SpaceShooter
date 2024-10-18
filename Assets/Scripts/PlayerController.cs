@@ -40,11 +40,28 @@ public class PlayerController : MonoBehaviour
 
     // Audio
     public AudioSource playerAudio;
-
     public AudioClip plasmaClip;
+    public AudioClip playerExplode;
+    public AudioClip laserHit;
+    public AudioClip asteroidCollisionClip;
+    public AudioClip enemyShipCollisionClip;
+    public AudioClip powerUpCollectClip;
+    public AudioClip repairCollectClip;
+    public AudioClip playerExpCollectClip;
+    public AudioClip playerLevelUpClip;
 
     void Start()
-    { 
+    {
+        //if (!playerAudio.enabled)
+        //{
+        //    playerAudio.enabled = true;
+        //}
+        //if (playerAudio.volume == 0)
+        //{
+        //    playerAudio.volume = 1;
+        //}
+        //playerAudio.PlayOneShot(laserHit);
+
         playerRB = GetComponent<Rigidbody>();
         playerHealth = maxHealth;
 
@@ -108,12 +125,14 @@ public class PlayerController : MonoBehaviour
         {
             case "Enemy":
                 Debug.Log("Enemy Collision");
+                PlayPlayerEnemyCollisionSound();
                 DamagePlayer(dmgComponent.GetDamage());
                 break;
             
             case "AsteroidSmall":
             case "AsteroidMedium":
             case "AsteroidLarge":
+                PlayPlayerAsteroidCollisionSound();
                 if (asteroidController != null)
                 {
                     float damageAmt = asteroidController.GetAsteroidCollisionDmg();
@@ -144,6 +163,7 @@ public class PlayerController : MonoBehaviour
             //    break;
             case "PowerUp":
                 Debug.Log("PowerUp Collected");
+                PowerUpCollectSound();
                 if (repairController != null)
                 {
                     maxHealth += repairController.MaxHealthIncAmount();
@@ -153,6 +173,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case "Experience":
                 Debug.Log("Experience Collected");
+                PlayPlayerExpCollectSound();
                 float gatheredExp = 0;
                 if (other.name == "BasicExp(Clone)")
                 {
@@ -174,6 +195,9 @@ public class PlayerController : MonoBehaviour
                 if (enemyProjectile != null)
                 {
                     float damageAmount = enemyProjectile.damageAmount;
+                    //playerAudio.PlayOneShot(laserHit);
+                    PlayPlayerLaserHitSound();
+                    Debug.Log("laserHit played");
                     DamagePlayer(damageAmount);
                 } 
                 else
@@ -185,7 +209,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case "Repair":
                 Debug.Log("Repairing!");
-
+                RepairCollectSound();
                 if (repairController != null)
                 {
                     HealPlayer(repairController.healAmount);
@@ -214,18 +238,21 @@ public class PlayerController : MonoBehaviour
 
     public void DamagePlayer(float amount)
     {
+
         Debug.Log("Damaging player for " + amount + " amount of damage, now at " + (playerHealth - amount) + " amount.");
         if (playerHealth > amount)
         {
             playerHealth -= (amount - armorVal);
         } else
         {
+            
             KillPlayer();
         }
     }
 
     private void KillPlayer()
     {
+        PlayPlayerExplodeSound();
         Debug.Log("Player Death");
         Destroy(gameObject);
     }
@@ -234,6 +261,7 @@ public class PlayerController : MonoBehaviour
     {
         GameObject plasmaInstance;
         // choose side to fire from based on in passed in
+        playerAudio.volume = .5f;
         playerAudio.PlayOneShot(plasmaClip);
         if (side == 0 || side % 2 == 0)
         {
@@ -277,8 +305,105 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void PlayPlayerLaserHitSound()
+    {
+        GameObject audioObject = new GameObject("PlayerLaserHitAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = .3f;
+        audioSource.clip = laserHit;
+        audioSource.Play();
+
+        Destroy(audioObject, laserHit.length);
+    }
+
+    public void PlayPlayerAsteroidCollisionSound()
+    {
+        GameObject audioObject = new GameObject("PlayerAsteroidCollAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = .6f;
+        audioSource.clip = asteroidCollisionClip;
+        audioSource.Play();
+
+        Destroy(audioObject, asteroidCollisionClip.length);
+    }
+
+    public void PlayPlayerEnemyCollisionSound()
+    {
+        GameObject audioObject = new GameObject("PlayerEnemyCollAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = .6f;
+        audioSource.clip = enemyShipCollisionClip;
+        audioSource.Play();
+
+        Destroy(audioObject, enemyShipCollisionClip.length);
+    }
+
+    public void PlayPlayerExpCollectSound()
+    {
+        GameObject audioObject = new GameObject("PlayerEnemyCollAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = 1f;
+        audioSource.clip = playerExpCollectClip;
+        audioSource.Play();
+
+        Destroy(audioObject, playerExpCollectClip.length);
+    }
+
+    public void PlayPlayerExplodeSound()
+    {
+        GameObject audioObject = new GameObject("PlayerExplodeAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = .3f;
+        audioSource.clip = playerExplode;
+        audioSource.Play();
+
+        Destroy(audioObject, playerExplode.length);
+    }
+
+    public void RepairCollectSound()
+    {
+        GameObject audioObject = new GameObject("RepairCollectAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = 1f;
+        audioSource.clip = repairCollectClip;
+        audioSource.Play();
+
+        Destroy(audioObject, repairCollectClip.length);
+    }
+
+    public void PowerUpCollectSound()
+    {
+        GameObject audioObject = new GameObject("PowerUpAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = 1f;
+        audioSource.clip = powerUpCollectClip;
+        audioSource.Play();
+
+        Destroy(audioObject, powerUpCollectClip.length);
+    }
+
+    public void PlayLevelUpSound()
+    {
+        GameObject audioObject = new GameObject("PowerUpAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = 1f;
+        audioSource.clip = playerLevelUpClip;
+        audioSource.Play();
+
+        Destroy(audioObject, playerLevelUpClip.length);
+    }
+
     public void LevelUpPlayer(float bonusExp)
     {
+        PlayLevelUpSound();   
         playerLevel++;
         playerExpToLevel *= expToLevelModifier;
         playerExp = bonusExp;

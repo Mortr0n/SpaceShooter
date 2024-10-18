@@ -31,7 +31,13 @@
 
 /Assets/Low Poly Rocks Pack/
 /Assets/ImportedAssets/
-
+/Assets/Industrial*
+/Assets/JMO*
+/Assets/PolyAnarchy*
+/Assets/Fantasy*
+/Assets/Free*
+/Assets/Audio*
+/Assets/Game Music*
 *.png
 *.jpg
 *.jpeg

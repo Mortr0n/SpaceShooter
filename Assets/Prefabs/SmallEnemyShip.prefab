@@ -55,6 +55,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -155,6 +158,8 @@ MonoBehaviour:
   enemyTypeRange: 1
   enemyLaserAudioSource: {fileID: -8874524893456570789}
   laserAudioClip: {fileID: 8300000, guid: 6c160acb360c40d43a7c65b55ef342bf, type: 3}
+  enemyHitByLaserClip: {fileID: 8300000, guid: efd6b088257fd374bb35c79aced4e7ab, type: 3}
+  enemyExplodeClip: {fileID: 8300000, guid: 3d1f7e8b8ab5dd449847103665b03b10, type: 3}
 --- !u!82 &-8874524893456570789
 AudioSource:
   m_ObjectHideFlags: 0
@@ -166,6 +171,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.25
   m_Pitch: 1

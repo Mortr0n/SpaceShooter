@@ -26,6 +26,9 @@ public class EnemyShipController : MonoBehaviour
     // Enemy Audio
     public AudioSource enemyLaserAudioSource;
     public AudioClip laserAudioClip;
+    public AudioClip enemyHitByLaserClip;
+    public AudioClip enemyExplodeClip;
+
 
     void Start()
     {
@@ -121,6 +124,8 @@ public class EnemyShipController : MonoBehaviour
         Debug.Log("Damaging Enemy for " +  totalDamage);
         if (shipHealth > totalDamage)
         {
+            //enemyLaserAudioSource.PlayOneShot(enemyHitByLaser);
+            PlayEnemyHitSound();
             shipHealth -= totalDamage;
             Debug.Log("Enemy " + gameObject.name + " damaged for " + totalDamage + " health is now " + shipHealth);
         }
@@ -128,13 +133,39 @@ public class EnemyShipController : MonoBehaviour
         {
             {
                 Debug.Log("Enemy " + gameObject.name + " health is now " + shipHealth + " and is dying.");
+                PlayEnemyHitSound();
                 KillEnemy();
             }
         }
     }
 
+    public void PlayEnemyHitSound()
+    {
+        GameObject audioObject = new GameObject("EnemyHitAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = .3f;
+        audioSource.clip = enemyHitByLaserClip;
+        audioSource.Play();
+
+        Destroy(audioObject, enemyHitByLaserClip.length);
+    }
+
+    public void PlayEnemyExplodeSound()
+    {
+        GameObject audioObject = new GameObject("EnemyExplodeAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = .3f;
+        audioSource.clip = enemyExplodeClip;
+        audioSource.Play();
+
+        Destroy(audioObject, enemyExplodeClip.length);
+    }
+
     private void KillEnemy()
     {
+        PlayEnemyExplodeSound();
         int idx = Random.Range(expBase, enemyTypeRange);
         GameObject expGem = Instantiate(expGems[idx], transform.position, transform.rotation);
         Destroy(gameObject);

@@ -12,15 +12,26 @@ public class DestroyOnCollision : MonoBehaviour
     private int expBase = 0;
     public int enemyTypeRange;
 
-    void Start()
-    {
+    public AudioSource asteroidAudioSource;
+    public AudioClip asteroidLaserHitClip;
 
+    public void PlayAsteroidHitSound()
+    {
+        GameObject audioObject = new GameObject("AsteroidHitAudioTemp");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+        audioSource.volume = .3f;
+        audioSource.clip = asteroidLaserHitClip;
+        audioSource.Play();
+
+        Destroy(audioObject, asteroidLaserHitClip.length);
     }
     void OnTriggerEnter(Collider other)
     {
         //if (tag != "EnemyLaser" && tag != "Repair" && tag != "PowerUp")
         if (other.CompareTag("PlayerWeapon") || other.CompareTag("Player"))
         {
+            PlayAsteroidHitSound();
             //string objectName = gameObject.name;
             string objectTag = gameObject.tag;
             int idx = Random.Range(expBase, enemyTypeRange);
