@@ -139,6 +139,8 @@ MonoBehaviour:
   enemyTypeRange: 1
   asteroidAudioSource: {fileID: -8928249718616430005}
   asteroidLaserHitClip: {fileID: 8300000, guid: efd6b088257fd374bb35c79aced4e7ab, type: 3}
+  plasmaHitParticle: {fileID: 8556241868477116297, guid: 788144d6872be86459729d6cbe631920, type: 3}
+  astSmokeParticle: {fileID: 6384826262473212791, guid: 4008ff9f434f1da4b9ad4a2dd78b9e0e, type: 3}
 --- !u!114 &-7132821558127761260
 MonoBehaviour:
   m_ObjectHideFlags: 0

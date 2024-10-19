@@ -4995,6 +4995,8 @@ MonoBehaviour:
   laserAudioClip: {fileID: 8300000, guid: 6c160acb360c40d43a7c65b55ef342bf, type: 3}
   enemyHitByLaserClip: {fileID: 8300000, guid: efd6b088257fd374bb35c79aced4e7ab, type: 3}
   enemyExplodeClip: {fileID: 8300000, guid: 3d1f7e8b8ab5dd449847103665b03b10, type: 3}
+  plasmaHitParticle: {fileID: 8556241868477116297, guid: 788144d6872be86459729d6cbe631920, type: 3}
+  enemyShipExplosionParticle: {fileID: 6849326161645143198, guid: ab5d9091a4b3f6c4ba9dc60194e0f23b, type: 3}
 --- !u!82 &-8874524893456570789
 AudioSource:
   m_ObjectHideFlags: 0

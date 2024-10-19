@@ -1,3 +1,4 @@
+using CartoonFX;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,9 @@ public class EnemyShipController : MonoBehaviour
     public AudioClip enemyHitByLaserClip;
     public AudioClip enemyExplodeClip;
 
+    // Particle Systems
+    public ParticleSystem plasmaHitParticle;
+    public ParticleSystem enemyShipExplosionParticle;
 
     void Start()
     {
@@ -96,7 +100,11 @@ public class EnemyShipController : MonoBehaviour
 
             if (pWeapCont != null)
             {
+                Vector3 hitLocation = other.transform.position;
+                ParticleSystem plasmaImpactEffect = Instantiate(plasmaHitParticle, hitLocation, transform.rotation);
+                plasmaHitParticle.Play();
                 DamageEnemy(pWeapCont.GetDamage());
+                Destroy(plasmaImpactEffect.gameObject, plasmaImpactEffect.main.duration);
             }
             else
             {
@@ -166,9 +174,17 @@ public class EnemyShipController : MonoBehaviour
     private void KillEnemy()
     {
         PlayEnemyExplodeSound();
+        ParticleSystem enemyGoBoom = Instantiate(enemyShipExplosionParticle, transform.position, transform.rotation);
+        CFXR_Effect shakeEffect = enemyGoBoom.GetComponent<CFXR_Effect>();
+        if (shakeEffect != null) 
+            {
+                shakeEffect.enabled = false;
+            }
+        enemyGoBoom.Play();
         int idx = Random.Range(expBase, enemyTypeRange);
         GameObject expGem = Instantiate(expGems[idx], transform.position, transform.rotation);
         Destroy(gameObject);
+        Destroy(enemyGoBoom.gameObject, enemyGoBoom.main.duration);
     }
 
 }

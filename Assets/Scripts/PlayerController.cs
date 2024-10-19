@@ -50,6 +50,10 @@ public class PlayerController : MonoBehaviour
     public AudioClip playerExpCollectClip;
     public AudioClip playerLevelUpClip;
 
+    // Particles
+    public ParticleSystem laserImpactParticle;
+    public ParticleSystem powerUpAura;
+
     void Start()
     {
         //if (!playerAudio.enabled)
@@ -151,7 +155,17 @@ public class PlayerController : MonoBehaviour
         EnemyProjectiles enemyProjectile = other.gameObject.GetComponent<EnemyProjectiles>();
         RepairController repairController = other.gameObject.GetComponent<RepairController>();
         AsteroidController asteroidController = other.gameObject.GetComponent<AsteroidController>();
-
+        if (other.CompareTag("PowerUp"))
+        {
+            if (powerUpAura != null)
+            {
+                powerUpAura.Play();
+            }
+            else
+            {
+                Debug.LogWarning("PowerUpAura particle system reference is null or destroyed.");
+            }
+        }
         switch (tag)
         {
             //case "AsteroidSmall":
@@ -164,6 +178,20 @@ public class PlayerController : MonoBehaviour
             case "PowerUp":
                 Debug.Log("PowerUp Collected");
                 PowerUpCollectSound();
+                if (powerUpAura == null)
+                {
+                    powerUpAura = GetComponentInChildren<ParticleSystem>();
+                    if (powerUpAura != null )
+                    {
+                        Debug.Log($"Power up {powerUpAura}");
+                        powerUpAura.Play();
+                    }
+                    else
+                    {
+                        Debug.Log("wtf yo!");
+                    }
+                }
+                
                 if (repairController != null)
                 {
                     maxHealth += repairController.MaxHealthIncAmount();
@@ -197,8 +225,12 @@ public class PlayerController : MonoBehaviour
                     float damageAmount = enemyProjectile.damageAmount;
                     //playerAudio.PlayOneShot(laserHit);
                     PlayPlayerLaserHitSound();
-                    Debug.Log("laserHit played");
+                    Debug.Log($"laserHit played {laserImpactParticle}");
+                    Vector3 hitLocation = other.transform.position;
+                    ParticleSystem impactEffect = Instantiate(laserImpactParticle, hitLocation, transform.rotation);
+                    impactEffect.Play();
                     DamagePlayer(damageAmount);
+                    Destroy(impactEffect.gameObject, impactEffect.main.duration);
                 } 
                 else
                 {
