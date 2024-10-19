@@ -9,6 +9,8 @@ public class SpawnManagerController : MonoBehaviour
     public float yPos = 3f;
     private float rockDelay = 1f;
     private float powerUpDelay = 30f;
+    private int spawnCounter = 0;
+    private int difficultyUp = 30;
     
     
     public GameObject[] spaceRocks;
@@ -16,14 +18,8 @@ public class SpawnManagerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(RockTimer(rockDelay));
+        StartCoroutine(SpawnTimer(rockDelay));
         StartCoroutine(PowerUpTimer(1f));
-    }
-
-    // Update is called once per frame 
-    void Update()
-    {
-        
     }
 
     private Vector3 GenerateRandomLoc()
@@ -44,17 +40,32 @@ public class SpawnManagerController : MonoBehaviour
         }
     }
 
-    IEnumerator RockTimer(float delay)
+    IEnumerator SpawnTimer(float delay) 
     {
         yield return new WaitForSeconds(delay); 
-        //SpawnRock();
+        
         GameObject rock;
         int idx = Random.Range(0, spaceRocks.Length);
         if (spaceRocks[idx] != null)
         {
+            spawnCounter++;
             rock = Instantiate(spaceRocks[idx], GenerateRandomLoc(), spaceRocks[idx].transform.rotation);
             yield return new WaitForEndOfFrame();
-            StartCoroutine(RockTimer(rockDelay));
+
+
+            if (spawnCounter >= difficultyUp)
+            {
+                
+                spawnCounter = 0;
+                if (rockDelay > .3f)
+                {
+                    difficultyUp += 30;
+                    rockDelay -= .1f;
+                }
+                
+            }
+
+            StartCoroutine(SpawnTimer(rockDelay));
             rock.transform.position = GenerateRandomLoc();
         }
     }
@@ -69,6 +80,8 @@ public class SpawnManagerController : MonoBehaviour
         {
             powerUp = Instantiate(powerUps[idx], GenerateRandomLoc(), powerUps[idx].transform.rotation);
             yield return new WaitForEndOfFrame();
+
+            // Edit the powerUpDelay to make this faster or slower.  Could use an object to speed it up and then reduce it back or something
             StartCoroutine(PowerUpTimer(powerUpDelay));
             powerUp.transform.position = GenerateRandomLoc();
         }

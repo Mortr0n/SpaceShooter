@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using CartoonFX;
 
 public class PlayerController : MonoBehaviour
 {
     // gameobjects
     private Rigidbody playerRB;
     public GameObject plasma;
+    public GameObject powerUpAura;
 
     // player Stat vars
     private float maxHealth = 100f;
@@ -52,20 +54,10 @@ public class PlayerController : MonoBehaviour
 
     // Particles
     public ParticleSystem laserImpactParticle;
-    public ParticleSystem powerUpAura;
+    //public ParticleSystem powerUpAura;
 
     void Start()
     {
-        //if (!playerAudio.enabled)
-        //{
-        //    playerAudio.enabled = true;
-        //}
-        //if (playerAudio.volume == 0)
-        //{
-        //    playerAudio.volume = 1;
-        //}
-        //playerAudio.PlayOneShot(laserHit);
-
         playerRB = GetComponent<Rigidbody>();
         playerHealth = maxHealth;
 
@@ -148,6 +140,15 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    IEnumerator RunActiveTimerOnGameObject(float wait, GameObject gameObject)
+    {
+        gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(wait);
+
+        gameObject.SetActive(false);
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -155,80 +156,59 @@ public class PlayerController : MonoBehaviour
         EnemyProjectiles enemyProjectile = other.gameObject.GetComponent<EnemyProjectiles>();
         RepairController repairController = other.gameObject.GetComponent<RepairController>();
         AsteroidController asteroidController = other.gameObject.GetComponent<AsteroidController>();
-        if (other.CompareTag("PowerUp"))
-        {
-            if (powerUpAura != null)
-            {
-                powerUpAura.Play();
-            }
-            else
-            {
-                Debug.LogWarning("PowerUpAura particle system reference is null or destroyed.");
-            }
-        }
+
         switch (tag)
         {
-            //case "AsteroidSmall":
-            //case "AsteroidMedium":
-            //case "AsteroidLarge":
-            //    float damageAmt = asteroidController.GetAsteroidCollisionDmg();
-            //    Debug.Log($"Player should take {damageAmt} damage from tag {tag} controller is {asteroidController}");
-            //    DamagePlayer(damageAmt);
-            //    break;
             case "PowerUp":
-                Debug.Log("PowerUp Collected");
                 PowerUpCollectSound();
-                if (powerUpAura == null)
-                {
-                    powerUpAura = GetComponentInChildren<ParticleSystem>();
-                    if (powerUpAura != null )
-                    {
-                        Debug.Log($"Power up {powerUpAura}");
-                        powerUpAura.Play();
-                    }
-                    else
-                    {
-                        Debug.Log("wtf yo!");
-                    }
-                }
-                
+                // This was the dumbest fucking thing I've ever dealt with.  It would just not access the particle system no matter what I did.  I just ended up leaving running at awake or 
+                // whatever and then setting it active and not because why the fuck could I play this one the way I play every other fucking particle I've done so far!!!!!?!?!?!?!!?
+                powerUpAura.SetActive(true); 
+                StartCoroutine(RunActiveTimerOnGameObject(1.5f, powerUpAura));
+                  
                 if (repairController != null)
                 {
                     maxHealth += repairController.MaxHealthIncAmount();
                     HealPlayer(repairController.MaxHealthIncAmount());
                 }
-                //Destroy(other.gameObject);
                 break;
+
             case "Experience":
-                Debug.Log("Experience Collected");
                 PlayPlayerExpCollectSound();
+
+
                 float gatheredExp = 0;
-                if (other.name == "BasicExp(Clone)")
+                if (other.CompareTag("Experience"))
                 {
-                    gatheredExp = 20;
+                    // lookie!  magic number.  should make this be on the experience object and then get the amount
+                    // from it and I could change it by the differing obj's and also spawn differing ones on a weighted scale
+                    gatheredExp = 20; 
                 }
                 IncPlayerExp(gatheredExp);
                 Destroy(other.gameObject);
                 break;
-            case "PowerBomb":
-                Debug.Log("PowerBomb Hit!");
+
+            case "PowerBomb": // I'm not using this at this point... 
                 Destroy(other.gameObject);
                 break;
+
             case "Laser":
-                Debug.Log("Laser Hit!");
                 Destroy(other.gameObject); 
                 break;
+
             case "EnemyLaser":
-                Debug.Log("Enemy Laser Hit!");
                 if (enemyProjectile != null)
                 {
-                    float damageAmount = enemyProjectile.damageAmount;
-                    //playerAudio.PlayOneShot(laserHit);
-                    PlayPlayerLaserHitSound();
-                    Debug.Log($"laserHit played {laserImpactParticle}");
+                    
+                    PlayPlayerLaserHitSound(); // set these as their own instanced game objects so that they don't fight with me removing stuff
+
+                    // set laser hit particle effect and play
                     Vector3 hitLocation = other.transform.position;
                     ParticleSystem impactEffect = Instantiate(laserImpactParticle, hitLocation, transform.rotation);
                     impactEffect.Play();
+
+                    // damage the player and destroy the laser object
+                    float damageAmount = enemyProjectile.damageAmount;
                     DamagePlayer(damageAmount);
                     Destroy(impactEffect.gameObject, impactEffect.main.duration);
                 } 
@@ -242,8 +222,10 @@ public class PlayerController : MonoBehaviour
             case "Repair":
                 Debug.Log("Repairing!");
                 RepairCollectSound();
+
                 if (repairController != null)
                 {
+                    //TODO: Set the Repair Particle here
                     HealPlayer(repairController.healAmount);
                 }
                 else
@@ -264,13 +246,14 @@ public class PlayerController : MonoBehaviour
             {
                 playerHealth = maxHealth;
             }
+            //TODO: Remove after I get ui for this
             Debug.Log("Healing for " + amount + " Health is at " + playerHealth + " and max is " + maxHealth);
         }
     }
 
     public void DamagePlayer(float amount)
     {
-
+        // TODO: Remove after UI
         Debug.Log("Damaging player for " + amount + " amount of damage, now at " + (playerHealth - amount) + " amount.");
         if (playerHealth > amount)
         {
@@ -296,8 +279,7 @@ public class PlayerController : MonoBehaviour
         playerAudio.volume = .5f;
         playerAudio.PlayOneShot(plasmaClip);
         if (side == 0 || side % 2 == 0)
-        {
-            
+        { 
             Vector3 playerRightGun = new Vector3(.7f, .4f, .8f);
             plasmaInstance = Instantiate(plasma, playerRB.transform.position + playerRightGun, transform.rotation);
             PlayerWeaponController pWeapCont =  plasmaInstance.GetComponent<PlayerWeaponController>();
@@ -321,6 +303,7 @@ public class PlayerController : MonoBehaviour
             FirePlasmaBall(i);
             yield return new WaitForSeconds(weaponPauseTime);
         }
+        
         yield return new WaitForSeconds(plasmaBurstPauseTime);
         canFire = true;
     }
@@ -336,7 +319,19 @@ public class PlayerController : MonoBehaviour
             LevelUpPlayer(leftOverExp);
         }
     }
+    public void LevelUpPlayer(float bonusExp)
+    {
+        PlayLevelUpSound();
+        playerLevel++;
+        playerExpToLevel *= expToLevelModifier;
+        playerExp = bonusExp;
+        Debug.Log("Player Level up to " + playerLevel + " next xp to lvl " + playerExpToLevel + " curr exp at " + playerExp);
+        int idx = UnityEngine.Random.Range(0, levelUpActions.Length);
+        levelUpActions[idx].Invoke();
+        Debug.Log($"Level {playerLevel} - Action {idx} applied");
+    }
 
+    // Audio Below
     public void PlayPlayerLaserHitSound()
     {
         GameObject audioObject = new GameObject("PlayerLaserHitAudioTemp");
@@ -431,36 +426,5 @@ public class PlayerController : MonoBehaviour
         audioSource.Play();
 
         Destroy(audioObject, playerLevelUpClip.length);
-    }
-
-    public void LevelUpPlayer(float bonusExp)
-    {
-        PlayLevelUpSound();   
-        playerLevel++;
-        playerExpToLevel *= expToLevelModifier;
-        playerExp = bonusExp;
-        Debug.Log("Player Level up to " +  playerLevel + " next xp to lvl " + playerExpToLevel + " curr exp at " + playerExp);
-        int idx = UnityEngine.Random.Range(0, levelUpActions.Length);
-        levelUpActions[idx].Invoke();
-        Debug.Log($"Level {playerLevel} - Action {idx} applied");
-        //switch (playerLevel)
-        //{
-        //    case 1:
-        //        plasmaFireTimes++;
-        //        break;
-        //    case 2:
-        //        weaponPauseTime *= .9f;
-        //        break;
-        //    case 3:
-        //        plasmaBurstPauseTime -= .1f;
-        //        break;
-        //    case 4:
-        //        plasmaFireTimes++;
-        //        break;
-        //    default:
-        //        plasmaFireTimes++;
-        //        break;
-        //}
-
     }
 }
