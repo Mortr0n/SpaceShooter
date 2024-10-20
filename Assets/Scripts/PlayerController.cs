@@ -257,14 +257,14 @@ public class PlayerController : MonoBehaviour
                 playerHealth = maxHealth;
             }
             //TODO: Remove after I get ui for this
-            Debug.Log("Healing for " + amount + " Health is at " + playerHealth + " and max is " + maxHealth);
+            //Debug.Log("Healing for " + amount + " Health is at " + playerHealth + " and max is " + maxHealth);
         }
     }
 
     public void DamagePlayer(float amount)
     {
         // TODO: Remove after UI
-        Debug.Log("Damaging player for " + amount + " amount of damage, now at " + (playerHealth - amount) + " amount.");
+        //Debug.Log("Damaging player for " + amount + " amount of damage, now at " + (playerHealth - amount) + " amount.");
         if (playerHealth > amount)
         {
             playerHealth -= (amount - armorVal);
@@ -322,23 +322,37 @@ public class PlayerController : MonoBehaviour
     {
         float incAmount = amt * expModifier;
         playerExp += incAmount;
-        Debug.Log("Player got exp " + incAmount + " increasing to " +  playerExp);
+        //Debug.Log("Player got exp " + incAmount + " increasing to " +  playerExp);
         if (playerExp > playerExpToLevel)
         {
             float leftOverExp = playerExp - playerExpToLevel;
             LevelUpPlayer(leftOverExp);
         }
     }
+
+    public float GetPlayerLevel()
+    {
+        return playerLevel;
+    }
+
+    public void SetPlayerLevel(float newLevel)
+    {
+        playerLevel = newLevel;
+    }
+
     public void LevelUpPlayer(float bonusExp)
     {
         PlayLevelUpSound();
         playerLevel++;
         playerExpToLevel *= expToLevelModifier;
         playerExp = bonusExp;
-        Debug.Log("Player Level up to " + playerLevel + " next xp to lvl " + playerExpToLevel + " curr exp at " + playerExp);
+        //Debug.Log("Player Level up to " + playerLevel + " next xp to lvl " + playerExpToLevel + " curr exp at " + playerExp);
         int idx = UnityEngine.Random.Range(0, levelUpActions.Length);
         levelUpActions[idx].Invoke();
         Debug.Log($"Level {playerLevel} - Action {idx} applied");
+        //GameManagerController gameManagerController = GameManagerController.Instance;
+        int lvlText = Mathf.FloorToInt(playerLevel);
+        GameManagerController.Instance.UpdateLevelText(lvlText.ToString());
     }
 
     // Audio Below

@@ -135,12 +135,12 @@ public class EnemyShipController : MonoBehaviour
             //enemyLaserAudioSource.PlayOneShot(enemyHitByLaser);
             PlayEnemyHitSound();
             shipHealth -= totalDamage;
-            Debug.Log("Enemy " + gameObject.name + " damaged for " + totalDamage + " health is now " + shipHealth);
+            //Debug.Log("Enemy " + gameObject.name + " damaged for " + totalDamage + " health is now " + shipHealth);
         }
         else if (shipHealth - totalDamage <= 0)
         {
             {
-                Debug.Log("Enemy " + gameObject.name + " health is now " + shipHealth + " and is dying.");
+                //Debug.Log("Enemy " + gameObject.name + " health is now " + shipHealth + " and is dying.");
                 PlayEnemyHitSound();
                 KillEnemy();
             }

@@ -6,13 +6,13 @@ public class SpinController : MonoBehaviour
 {
     public float spinSpeed;
     private string tagString;
-    // Start is called before the first frame update
+
     void Start()
     {
         tagString = gameObject.tag;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (tagString == "PowerUp")
