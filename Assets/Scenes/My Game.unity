@@ -1046,11 +1046,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 444480, guid: 852de78870ac97e479bd7e25df0ed92b, type: 3}
   m_PrefabInstance: {fileID: 1306788698}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &708627209 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3779094164313497314, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
-  m_PrefabInstance: {fileID: 1225425166}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &716185058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2172,42 +2167,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 844839087249295225, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
-      propertyPath: playOnAwake
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779094164010856059, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
-      propertyPath: playOnAwake
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779094164313497314, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779094164313497314, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
-      propertyPath: m_TagString
-      value: PowerUpAura
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779094164313497315, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
-      propertyPath: playOnAwake
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779094164355998246, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4991551600842040844, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
-      propertyPath: playOnAwake
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6795802939857053720, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7079152855422686683, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
-      propertyPath: powerUpAura
-      value: 
-      objectReference: {fileID: 708627209}
+    - target: {fileID: 7197083669613625174, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7919472494614751837, guid: 697d97daf0e654e468fc4b894c55dfa3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

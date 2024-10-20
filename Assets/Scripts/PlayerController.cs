@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRB;
     public GameObject plasma;
     public GameObject powerUpAura;
+    public GameObject repairCircle;
 
     // player Stat vars
     private float maxHealth = 100f;
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
 
     // Particles
     public ParticleSystem laserImpactParticle;
+    public ParticleSystem repairParticle;
     //public ParticleSystem powerUpAura;
 
     void Start()
@@ -222,7 +224,15 @@ public class PlayerController : MonoBehaviour
             case "Repair":
                 Debug.Log("Repairing!");
                 RepairCollectSound();
-
+                if (repairParticle != null)
+                {
+                    repairParticle.Play();
+                }
+                else
+                {
+                    Debug.Log("NO REPAIR!!!");
+                    Debug.Log("NO REPAIR!!!");
+                }
                 if (repairController != null)
                 {
                     //TODO: Set the Repair Particle here
