@@ -1,7 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using UnityEngine.Internal;
+using UnityEngine.Scripting;
 using TMPro;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 
 public class GameManagerController : MonoBehaviour
@@ -9,7 +15,8 @@ public class GameManagerController : MonoBehaviour
     public static GameManagerController Instance { get; private set; }
 
 
-    public PlayerController playerController;
+    private PlayerController playerController;
+    public Button restartButton;
 
     public AudioSource[] backgroundMusicArray;
     public AudioSource backgroundMusic;
@@ -29,7 +36,12 @@ public class GameManagerController : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
+    public void GameOver()
+    {
+        Debug.Log("Game Over");
+        ShowRestartButton();
+    }
 
 
    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -37,7 +49,39 @@ public class GameManagerController : MonoBehaviour
         levelText = GameObject.Find("LevelText").GetComponent<TextMeshProUGUI>();
 
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+
+        if (playerController != null)
+        {
+            playerController.RestartPlayerSettings();
+        }
+        HideRestartButton();
+
         UpdateLevelText("0");
+        StartCoroutine(InitializeAfterSceneLoad());
+    }
+
+    
+    // for anything needing to have the scene fully loaded.  The health bar specifically didn't want to update so this helped
+    IEnumerator InitializeAfterSceneLoad()
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (playerController != null)
+        {
+            playerController.PlayerUpdateHealthBar();
+        }
+    }
+
+    private void OnEnable()
+    {
+        // Subscribe to the sceneLoaded event
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe from the sceneLoaded event
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void PlayBackgroundMusic()
@@ -62,14 +106,28 @@ public class GameManagerController : MonoBehaviour
     public void UpdateLevelText(string levelString)
     {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        Debug.Log($"Updating level text {playerController.GetPlayerLevel()}");
+
         levelText = GameObject.Find("LevelText").GetComponent<TextMeshProUGUI>();
-        Debug.Log($"levelString {levelString} and levelText {levelText}");
+
         if (levelText != null)
         {
-            //string lvlText = playerController.GetPlayerLevel().ToString();
-            levelText.text = "Player Level: " + levelString;
+            levelText.text = "LVL: " + levelString;
         }
+    }
+
+    public void ShowRestartButton()
+    {
+        restartButton.gameObject.SetActive(true);
+    }
+
+    public void HideRestartButton()
+    {
+        restartButton.gameObject.SetActive(false);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void OnDestroy()

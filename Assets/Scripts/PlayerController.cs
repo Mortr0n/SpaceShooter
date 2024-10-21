@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public GameObject plasma;
     public GameObject powerUpAura;
     public GameObject repairCircle;
+    private HealthBarController healthBarController;
+    private ExpBarController expBarController;
 
     // player Stat vars
     private float maxHealth = 100f;
@@ -58,6 +60,36 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem repairParticle;
     //public ParticleSystem powerUpAura;
 
+    public void RestartPlayerSettings()
+    {
+        //Move
+        moveSpeed = 8;
+
+        //Weapons
+        weaponPauseTime = .2f;
+        plasmaFireTimes = 3;
+        plasmaBurstPauseTime = .5f;
+        pDamageModAmt = 1;
+
+        // player lvl and exp
+        playerLevel = 0;
+        playerExpToLevel = 100f;
+        playerExp = 0;
+        expModifier = 1f;
+        expToLevelModifier = 1.1f; 
+
+        //player health 
+        maxHealth = 100f;
+        playerHealth = maxHealth;
+        armorVal = 1;
+
+        healthBarController = GetComponent<HealthBarController>();
+        healthBarController.UpdateHealthBar();
+
+        Debug.Log($"HealthBarController found: {healthBarController != null}");
+
+    }
+
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
@@ -66,12 +98,15 @@ public class PlayerController : MonoBehaviour
         levelUpActions = new Action[]
         {
             () => plasmaFireTimes++,
-            () => weaponPauseTime *= .9f,
-            () => plasmaBurstPauseTime -= .1f,
+            () => weaponPauseTime *= .7f,
+            () => plasmaBurstPauseTime *= .8f,
             () => moveSpeed *= 1.1f,
             () => armorVal += 2,
 
         };
+
+        healthBarController = GetComponent<HealthBarController>();
+        healthBarController.UpdateHealthBar();
     }
 
     // Update is called once per frame
@@ -111,6 +146,16 @@ public class PlayerController : MonoBehaviour
             canFire = false; // for pause in between shots so they can't just spam fire button
             StartCoroutine(PlasmaFireWithPause(plasmaFireTimes));
         }
+    }
+
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public float GetCurrentHealth()
+    {
+        return playerHealth;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -160,7 +205,18 @@ public class PlayerController : MonoBehaviour
         AsteroidController asteroidController = other.gameObject.GetComponent<AsteroidController>();
 
         switch (tag)
-        {
+        {   // TODO: Add in Power Bomb Power up
+            case "PowerBomb": // I'm not using this at this point... 
+                Debug.Log("Collected Power Bomb");
+                Destroy(other.gameObject);
+                break;
+
+            // TODO: Add in double xp power up
+            case "DoubleXP":
+                Debug.Log("Collected Double XP");
+                Destroy(other.gameObject);
+                break;
+
             case "PowerUp":
                 PowerUpCollectSound();
                 // This was the dumbest fucking thing I've ever dealt with.  It would just not access the particle system no matter what I did.  I just ended up leaving running at awake or 
@@ -177,8 +233,6 @@ public class PlayerController : MonoBehaviour
 
             case "Experience":
                 PlayPlayerExpCollectSound();
-
-
                 float gatheredExp = 0;
                 if (other.CompareTag("Experience"))
                 {
@@ -186,11 +240,8 @@ public class PlayerController : MonoBehaviour
                     // from it and I could change it by the differing obj's and also spawn differing ones on a weighted scale
                     gatheredExp = 20; 
                 }
+                
                 IncPlayerExp(gatheredExp);
-                Destroy(other.gameObject);
-                break;
-
-            case "PowerBomb": // I'm not using this at this point... 
                 Destroy(other.gameObject);
                 break;
 
@@ -256,27 +307,34 @@ public class PlayerController : MonoBehaviour
             {
                 playerHealth = maxHealth;
             }
-            //TODO: Remove after I get ui for this
-            //Debug.Log("Healing for " + amount + " Health is at " + playerHealth + " and max is " + maxHealth);
+
+            PlayerUpdateHealthBar();
         }
+    }
+
+    // this was necessar for updating the healthbar after scene load in the game manager so I'm using it for everywhere there's a health change now
+    public void PlayerUpdateHealthBar()
+    {
+        healthBarController = GetComponent<HealthBarController>();
+        healthBarController.UpdateHealthBar();
     }
 
     public void DamagePlayer(float amount)
     {
-        // TODO: Remove after UI
-        //Debug.Log("Damaging player for " + amount + " amount of damage, now at " + (playerHealth - amount) + " amount.");
+
         if (playerHealth > amount)
         {
             playerHealth -= (amount - armorVal);
+            PlayerUpdateHealthBar();
         } else
         {
-            
             KillPlayer();
         }
     }
 
     private void KillPlayer()
     {
+        GameManagerController.Instance.GameOver();   
         PlayPlayerExplodeSound();
         Debug.Log("Player Death");
         Destroy(gameObject);
@@ -328,6 +386,8 @@ public class PlayerController : MonoBehaviour
             float leftOverExp = playerExp - playerExpToLevel;
             LevelUpPlayer(leftOverExp);
         }
+        expBarController = GetComponent<ExpBarController>();
+        expBarController.UpdateExpBar();
     }
 
     public float GetPlayerLevel()
@@ -338,6 +398,16 @@ public class PlayerController : MonoBehaviour
     public void SetPlayerLevel(float newLevel)
     {
         playerLevel = newLevel;
+    }
+
+    public float GetCurrentExp()
+    {
+        return playerExp;
+    }
+
+    public float GetExpToLevel()
+    {
+        return playerExpToLevel;
     }
 
     public void LevelUpPlayer(float bonusExp)
@@ -353,6 +423,8 @@ public class PlayerController : MonoBehaviour
         //GameManagerController gameManagerController = GameManagerController.Instance;
         int lvlText = Mathf.FloorToInt(playerLevel);
         GameManagerController.Instance.UpdateLevelText(lvlText.ToString());
+
+        
     }
 
     // Audio Below
