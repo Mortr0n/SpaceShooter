@@ -456,6 +456,7 @@ GameObject:
   - component: {fileID: 391310986}
   - component: {fileID: 391310985}
   - component: {fileID: 391310984}
+  - component: {fileID: 391310987}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -513,6 +514,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &391310987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391310983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 996b2288143901740b36c1dc9b0aacc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &431390842 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 436648, guid: 0d070dddcf981e7429914a08585ff392, type: 3}
@@ -3214,6 +3227,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1337851467505888769, guid: fc9a6cdac4a3271419074326f0f870df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4783736256664142895, guid: fc9a6cdac4a3271419074326f0f870df, type: 3}
       propertyPath: m_Name
       value: Game Manager

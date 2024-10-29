@@ -40,11 +40,12 @@ public class GameManagerController : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("Game Over");
-        ShowRestartButton();
+        //ShowRestartButton();
+        SceneManager.LoadScene(0);
     }
 
 
-   public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+   public void StartGame()
     {
         levelText = GameObject.Find("LevelText").GetComponent<TextMeshProUGUI>();
 
@@ -72,17 +73,17 @@ public class GameManagerController : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        // Subscribe to the sceneLoaded event
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
+    //private void OnEnable()
+    //{
+    //    // Subscribe to the sceneLoaded event
+    //    SceneManager.sceneLoaded += OnSceneLoaded;
+    //}
 
-    private void OnDisable()
-    {
-        // Unsubscribe from the sceneLoaded event
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+    //private void OnDisable()
+    //{
+    //    // Unsubscribe from the sceneLoaded event
+    //    SceneManager.sceneLoaded -= OnSceneLoaded;
+    //}
 
     public void PlayBackgroundMusic()
     {
