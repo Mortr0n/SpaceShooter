@@ -14,9 +14,12 @@ public class GameManagerController : MonoBehaviour
 {
     public static GameManagerController Instance { get; private set; }
 
-
+    
     private PlayerController playerController;
+    private SaveData sData;
+    private TextMeshProUGUI bestText;
     public Button restartButton;
+    public TMP_InputField nameInput; 
 
     public AudioSource[] backgroundMusicArray;
     public AudioSource backgroundMusic;
@@ -40,7 +43,15 @@ public class GameManagerController : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("Game Over");
-        //ShowRestartButton();
+        
+        ShowRestartButton();
+
+        ShowNameInput();
+        
+    }
+
+    public void GoToMenu()
+    {
         SceneManager.LoadScene(0);
     }
 
@@ -48,6 +59,7 @@ public class GameManagerController : MonoBehaviour
    public void StartGame()
     {
         levelText = GameObject.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        bestText = GameObject.Find("BestText").GetComponent<TextMeshProUGUI>();
 
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
 
@@ -55,7 +67,11 @@ public class GameManagerController : MonoBehaviour
         {
             playerController.RestartPlayerSettings();
         }
+        HideNameInput();
         HideRestartButton();
+        sData = SaveManager.Instance.GetCurrentSaveData();
+        int topLevel = sData.highScores[0] != null ? sData.highScores[0].Level : 0;
+        UpdateBestText(topLevel);
 
         UpdateLevelText("0");
         StartCoroutine(InitializeAfterSceneLoad());
@@ -116,9 +132,26 @@ public class GameManagerController : MonoBehaviour
         }
     }
 
+    public void UpdateBestText(int topScore)
+    {
+        string levelString = topScore != 0 ? topScore.ToString(): "NA";
+                    
+        bestText.text = $"Best: {levelString}";
+    }
+
     public void ShowRestartButton()
     {
         restartButton.gameObject.SetActive(true);
+    }
+
+    public void ShowNameInput()
+    {
+        nameInput.gameObject.SetActive(true);
+    }
+
+    public void HideNameInput()
+    {
+        nameInput.gameObject.SetActive(false);
     }
 
     public void HideRestartButton()
@@ -128,7 +161,12 @@ public class GameManagerController : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        HighScoreData newData = new HighScoreData();
+        newData.Name = nameInput.text;
+        newData.Level = (int)playerController.GetPlayerLevel();
+        SaveManager.Instance.SaveHighScore(newData);
+        GoToMenu();
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void OnDestroy()
