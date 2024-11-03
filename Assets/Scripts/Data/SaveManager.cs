@@ -124,7 +124,7 @@ public class SaveManager : MonoBehaviour
         string highScoreString = "";
         foreach (HighScoreData hScores in sData.highScores)
         {
-            if (hScores != null)
+            if (hScores.Level != 0)
             {
                 highScoreString += $"{hScores.Name}: {hScores.Level} \n";
             }
