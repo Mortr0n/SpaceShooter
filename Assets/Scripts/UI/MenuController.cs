@@ -7,6 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
+    public void Start()
+    {
+        SaveManager.Instance.DisplayHighScores();
+    }
     public void StartGame()
     {
         SceneManager.LoadScene(1);

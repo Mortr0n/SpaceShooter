@@ -19,7 +19,8 @@ public class GameManagerController : MonoBehaviour
     private SaveData sData;
     private TextMeshProUGUI bestText;
     public Button restartButton;
-    public TMP_InputField nameInput; 
+    public TMP_InputField nameInput;
+
 
     public AudioSource[] backgroundMusicArray;
     public AudioSource backgroundMusic;
@@ -74,7 +75,10 @@ public class GameManagerController : MonoBehaviour
         UpdateBestText(topLevel);
 
         UpdateLevelText("0");
+        
         StartCoroutine(InitializeAfterSceneLoad());
+
+
     }
 
     
@@ -131,6 +135,8 @@ public class GameManagerController : MonoBehaviour
             levelText.text = "LVL: " + levelString;
         }
     }
+
+    
 
     public void UpdateBestText(int topScore)
     {

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using TMPro;
 using UnityEngine;
 
 public class SaveManager : MonoBehaviour
@@ -7,6 +8,8 @@ public class SaveManager : MonoBehaviour
    public static SaveManager Instance { get; private set; }
     private string savePath => Application.persistentDataPath + "/savefile.json";
     [SerializeField] private SaveData saveData;
+    public TextMeshProUGUI highScoreList;
+
 
     private void Awake()
     {
@@ -111,5 +114,23 @@ public class SaveManager : MonoBehaviour
     public SaveData GetCurrentSaveData()
     {
         return saveData;
+    }
+
+
+    public void DisplayHighScores()
+    {
+        SaveData sData = SaveManager.Instance.GetCurrentSaveData();
+
+        string highScoreString = "";
+        foreach (HighScoreData hScores in sData.highScores)
+        {
+            if (hScores != null)
+            {
+                highScoreString += $"{hScores.Name}: {hScores.Level} \n";
+            }
+        }
+        GameObject highScoreObject = GameObject.Find("HighScoreList");
+        highScoreList = highScoreObject.GetComponent<TextMeshProUGUI>();
+        highScoreList.text = highScoreString;
     }
 }

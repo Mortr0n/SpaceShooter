@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SpawnManagerController : MonoBehaviour
@@ -13,6 +14,7 @@ public class SpawnManagerController : MonoBehaviour
     private int difficultyUp = 30;
     
     
+
     public GameObject[] spaceRocks;
     public GameObject[] powerUps;
     // Start is called before the first frame update
@@ -87,4 +89,5 @@ public class SpawnManagerController : MonoBehaviour
         }
 
     }
+
 }
